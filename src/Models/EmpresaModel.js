@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 const DatosAtelierSchema = mongoose.Schema({
   logo: {
@@ -48,6 +49,8 @@ const redesSocialesSchema = mongoose.Schema([
     }
   },
 ]);
+DatosAtelierSchema.plugin(auditMiddleware);
+redesSocialesSchema.plugin(auditMiddleware);
 
 module.exports = {
   DatosAtelier: mongoose.model("DatosAtelier", DatosAtelierSchema),

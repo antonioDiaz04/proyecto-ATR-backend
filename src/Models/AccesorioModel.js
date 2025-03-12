@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 const accesorioSchema = new mongoose.Schema({
   nombre: {
     type: String,
@@ -18,5 +19,5 @@ const accesorioSchema = new mongoose.Schema({
     }
   }
 });
-
+accesorioSchema.plugin(auditMiddleware);
 module.exports = mongoose.model('Accesorio', accesorioSchema);

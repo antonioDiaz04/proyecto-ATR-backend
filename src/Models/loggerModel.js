@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 
 const logSchema = new mongoose.Schema({
@@ -52,5 +53,6 @@ const logSchema = new mongoose.Schema({
     required: true,
   },
 });
+logSchema.plugin(auditMiddleware);
 
 module.exports = mongoose.model('Log', logSchema);

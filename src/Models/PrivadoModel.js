@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 const PoliticaNegocioSchema = mongoose.Schema({
   titulo: {
@@ -206,6 +207,11 @@ const DeslindelegalSchema = mongoose.Schema({
     },
   ],
 });
+terminosYCondicionesSchema.plugin(auditMiddleware);
+PoliticaNegocioSchema.plugin(auditMiddleware);
+AcercaSchema.plugin(auditMiddleware);
+DeslindelegalSchema.plugin(auditMiddleware);
+ContactoSchema.plugin(auditMiddleware);
 
 module.exports = {
   Politicas: mongoose.model("Politicas", PoliticaNegocioSchema),

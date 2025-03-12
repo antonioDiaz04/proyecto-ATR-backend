@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 const EstadoCuentaSchema = mongoose.Schema({
   estado: { type: String, default: "activa" },
@@ -27,6 +28,7 @@ const UsuarioSchema = mongoose.Schema({
 
 const EstadoCuenta = mongoose.model("EstadoCuenta", EstadoCuentaSchema);
 const Usuario = mongoose.model("Usuarios", UsuarioSchema);
+EstadoCuentaSchema.plugin(auditMiddleware);
 
 //  Middleware pre-save para limpiar el número de teléfono
 UsuarioSchema.pre("save", function (next) {

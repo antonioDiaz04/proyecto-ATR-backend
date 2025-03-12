@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 const productoSchema = new mongoose.Schema({
   nombre: {
@@ -62,5 +63,5 @@ const productoSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
+productoSchema.plugin(auditMiddleware);
 module.exports = mongoose.model("Producto", productoSchema);

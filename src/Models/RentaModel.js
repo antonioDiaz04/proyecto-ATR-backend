@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditMiddleware = require('../Midlewares/auditMiddleware');
 
 const RentaSchema = new mongoose.Schema({
   // Referencia a Usuario
@@ -86,7 +87,7 @@ RentaSchema.methods.calcularDuracion = function() {
   const duracion = Math.ceil((fin - inicio) / (1000 * 60 * 60 * 24));
   return duracion;
 };
-
+RentaSchema.plugin(auditMiddleware);
 const Renta = mongoose.model("Renta", RentaSchema);
 
 module.exports = Renta;
