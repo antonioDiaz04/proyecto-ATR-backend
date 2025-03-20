@@ -33,9 +33,7 @@ exports.Login = async (req, res) => {
     let usuario;
 
     if (!email || !password) {
-      return res
-        .status(401)
-        .json({ message: "Credenciales inválidas." });
+      return res.status(401).json({ message: "Credenciales inválidas." });
     }
 
     usuario = await Usuario.findOne({ email }).populate("estadoCuenta");
@@ -141,5 +139,50 @@ exports.Login = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error en el servidor: " + error.message });
+  }
+};
+
+exports.registrarUsuarioGoogle = async (req, res) => {
+  try {
+    // Sanitizar entrada
+    const sanitizedData = sanitizeObject(req.body);
+    const { uid, email, displayName, photoURL, phoneNumber } = sanitizedData;
+
+    // Validaciones
+    if (!uid || !email) {
+      return res.status(400).json({ message: "Datos inválidos." });
+    }
+
+    let usuario = await Usuario.findOne({ email });
+
+    if (!usuario) {
+      // Crear nuevo usuario si no existe
+      usuario = new Usuario({
+        uid,
+        telefono: phoneNumber || "",
+        email,
+        nombre: displayName,
+        photoURL,
+        fechaDeRegistro: new Date(),
+      });
+
+      await usuario.save();
+    }
+
+    // Crear token JWT para la sesión
+    const token = jwt.sign(
+      { _id: usuario._id, rol: usuario.rol },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    res.status(200).json({
+      token,
+    });
+  } catch (error) {
+    console.error("Error al registrar usuario con Google:", error);
+    res.status(500).json({ message: "Error en el servidor" });
   }
 };

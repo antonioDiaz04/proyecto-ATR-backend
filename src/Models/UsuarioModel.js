@@ -13,12 +13,14 @@ const EstadoCuentaSchema = mongoose.Schema({
 const UsuarioSchema = mongoose.Schema({
   nombre: { type: String, required: true },
   email: { type: String, unique: true, required: false },
-  telefono: { type: String, required: true },
+  telefono: { type: String },
   token: { type: String, required: false },
   codigoVerificacion: { type: String, required: false },
   verificado: { type: Boolean, required: false },
-  rol: { 
-    type: String, required: false, default: "CLIENTE" 
+  rol: {
+    type: String,
+    required: false,
+    default: "CLIENTE",
   },
   password: { type: String, required: false, default: "" },
   fechaDeRegistro: { type: Date, default: Date.now() },

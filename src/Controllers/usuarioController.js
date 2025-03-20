@@ -2,7 +2,7 @@ const { Usuario, EstadoCuenta } = require("../Models/UsuarioModel");
 require("../Routes/UsuarioRoute");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {logger} = require("../util/logger");
+const { logger } = require("../util/logger");
 
 exports.perfilUsuario = async (req, res) => {
   try {
@@ -24,8 +24,6 @@ exports.perfilUsuario = async (req, res) => {
     return res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
-
-
 
 // Middleware para verificar el token y el rol del usuario
 exports.verifyTokenAndRole = (role) => (req, res, next) => {
@@ -206,24 +204,24 @@ exports.crearUsuario = async (req, res) => {
       return res.status(400).send({ message: "El email ya está registrado" });
     } // Eliminar espacios en el teléfono
 
-    const telefonoFormateado = cleanPhoneNumber(telefono);
-    if (!telefonoFormateado) {
-      logger.warn("El número telefónico no es válido");
-      return res
-        .status(400)
-        .send({ message: "El número telefónico no es válido" });
-    }
+    // const telefonoFormateado = cleanPhoneNumber(telefono);
+    // if (!telefonoFormateado) {
+    //   logger.warn("El número telefónico no es válido");
+    //   return res
+    //     .status(400)
+    //     .send({ message: "El número telefónico no es válido" });
+    // }
 
-    // Verificar si el número de teléfono ya está registrado
-    const exist_number = await Usuario.findOne({
-      telefono: telefonoFormateado,
-    });
-    if (exist_number) {
-      logger.warn("El número telefónico ya está registrado");
-      return res
-        .status(400)
-        .send({ message: "El número telefónico ya está registrado" });
-    }
+    // // Verificar si el número de teléfono ya está registrado
+    // const exist_number = await Usuario.findOne({
+    //   telefono: telefonoFormateado,
+    // });
+    // if (exist_number) {
+    //   logger.warn("El número telefónico ya está registrado");
+    //   return res
+    //     .status(400)
+    //     .send({ message: "El número telefónico ya está registrado" });
+    // }
 
     const primerUsuario = await Usuario.findOne().populate("estadoCuenta");
 
@@ -243,7 +241,8 @@ exports.crearUsuario = async (req, res) => {
     const usuario = new Usuario({
       nombre,
       email,
-      telefono: telefonoFormateado,
+      telefono: telefono,
+      // telefonoFormateado
       password: hashedPassword,
       estadoCuenta: nuevoEstadoCuenta._id,
       token: "",
@@ -523,7 +522,7 @@ exports.actualizaRolUsuario = async (req, res) => {
     );
 
     if (!usuarioActualizado) {
-      logger.warn(`Usuario no encontrado: ${id}`); 
+      logger.warn(`Usuario no encontrado: ${id}`);
       return res.status(404).json({ mensaje: "Usuario no encontrado" });
     }
 
@@ -543,7 +542,6 @@ exports.actualizaDatos = async (req, res) => {
     const { id } = req.params;
     const { nombre, email, longitud, latitud, telefono, numCasa, estatus } =
       req.body;
-   
 
     let cliente = await Usuario.findById(req.params.id);
     if (!cliente) {
@@ -563,7 +561,7 @@ exports.actualizaDatos = async (req, res) => {
       usuario: usuarioActualizado,
     });
   } catch (error) {
-    logger.error(`Error al actualizar los datos del usuario: ${error.message}`); 
+    logger.error(`Error al actualizar los datos del usuario: ${error.message}`);
     res.status(500).json({ mensaje: "Error interno del servidor" });
   }
 };

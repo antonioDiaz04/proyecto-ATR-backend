@@ -30,7 +30,7 @@ const logger = createLogger({
 });
 
 
-const logHttpRequest = async (req, res, responseTime, level = "warn", message = "HTTP Request") => {
+const logHttpRequest = async (req, res, responseTime, level , message ) => {
     const { method, originalUrl, query, body, ip, headers } = req;
     const { statusCode } = res;
 
@@ -59,7 +59,7 @@ const logHttpRequest = async (req, res, responseTime, level = "warn", message = 
 
     // Guardar en archivo de logs
     logger.log(level, message, logData);
+    
 };
 
-// Exportar funciones
 module.exports = { logger, logHttpRequest };
