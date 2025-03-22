@@ -11,7 +11,10 @@ router.post(
   // validarDatos(loginSchema),
   AutController.Login
 );
-router.post("/google-login", AutController.registrarUsuarioGoogle);
+router.post(
+  "/signIn-Google-Facebook",
+  AutController.registrarUsuarioConGoogleOFacebook
+);
 
 // router.post("/enviar-confirmar", AutController.enviarConfirmar);
 // router.post("/verficar-codigo", AutController.verificarCodigo);

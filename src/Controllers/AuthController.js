@@ -142,7 +142,7 @@ exports.Login = async (req, res) => {
   }
 };
 
-exports.registrarUsuarioGoogle = async (req, res) => {
+exports.registrarUsuarioConGoogleOFacebook = async (req, res) => {
   try {
     // Sanitizar entrada
     const sanitizedData = sanitizeObject(req.body);
@@ -182,7 +182,7 @@ exports.registrarUsuarioGoogle = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error("Error al registrar usuario con Google:", error);
+    console.error("Error al registrar usuario:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
