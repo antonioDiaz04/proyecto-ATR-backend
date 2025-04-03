@@ -10,7 +10,7 @@ const logger = createLogger({
   ),
   transports: [
     new transports.File({ filename: 'logs/app.log' }),
-    new transports.Console(),
+    // new transports.Console(),
   ]
 });
 
